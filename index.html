@@ -32,6 +32,14 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Boxicons -->
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
@@ -72,48 +80,184 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.1);
       color: #e0f7fa;
     }
+    /* Header styling */
+#header1 {
+  background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  width: 250px;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  transition: all 0.4s ease;
+}
+
+.profile1 h1 a {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.social-links1 a {
+  font-size: 18px;
+  margin: 0 5px;
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.social-links1 a:hover {
+  background: #00ffc3;
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* Menu links */
+.nav-link1 {
+  padding: 12px 10px;
+  font-weight: 500;
+  font-size: 15px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  color: #eee;
+}
+
+.nav-link1:hover {
+  background: rgba(255,255,255,0.1);
+  border-left: 3px solid #00ffd0;
+  color: #00ffd0;
+  padding-left: 15px;
+}
+
+/* Animations */
+.social-anim1, .menu-anim {
+  animation: slideIn 0.6s ease forwards;
+  opacity: 0;
+}
+.social-anim1:nth-child(1) { animation-delay: 0.1s; }
+.social-anim1:nth-child(2) { animation-delay: 0.2s; }
+.social-anim1:nth-child(3) { animation-delay: 0.3s; }
+.social-anim1:nth-child(4) { animation-delay: 0.4s; }
+
+.menu-anim1:nth-child(1) { animation-delay: 0.5s; }
+.menu-anim1:nth-child(2) { animation-delay: 0.6s; }
+.menu-anim1:nth-child(3) { animation-delay: 0.7s; }
+.menu-anim1:nth-child(4) { animation-delay: 0.8s; }
+.menu-anim1:nth-child(5) { animation-delay: 0.9s; }
+.menu-anim1:nth-child(6) { animation-delay: 1s; }
+.menu-anim1:nth-child(7) { animation-delay: 1.1s; }
+.menu-anim1:nth-child(8) { animation-delay: 1.2s; }
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animations truyj*/
+
+.profile-img-wrapper {
+  width: 140px;
+  height: 140px;
+  position: relative;
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+}
+
+.loader-circle {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 156px;
+  height: 156px;
+  border: 4px solid transparent;
+  border-top: 4px solid #00ffd5;
+  border-right: 4px solid #00bfff;
+  border-radius: 50%;
+  animation: rotateLoader 2s linear infinite;
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+@keyframes rotateLoader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.profile-img:hover {
+  box-shadow: 0 0 20px #00ffd5, 0 0 40px #00ffd5;
+  transition: box-shadow 0.4s ease-in-out;
+}
+
+/* Animations yunm*/
+
   </style>
 </head>
-
+ 
 <body>
 
   <!-- ======= Mobile nav toggle button ======= -->
   <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
-  <!-- ======= Header ======= -->
-  <header id="header">
-    <div class="d-flex flex-column">
+  <!-- Stylish Header -->
+<header id="header1" class="d-flex flex-column justify-content-between align-items-center py-4">
+  <div class="profile1 text-center animate__animated animate__fadeInDown">
+    <!-- <div class="profile-img-wrapper mb-3">
+      <img src="assets/img/profile-img.jpg" alt="Profile" class="img-fluid rounded-circle border border-3 border-light shadow" style="width: 120px; height: 120px; object-fit: cover;">
+    </div> -->
 
-      <div class="profile">
-        <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html">SAJIM UDDIN</a></h1>
-        <div class="social-links mt-3 text-center">
-          <a href="https://facebook.com/sajimpk4/" class="facebook"><i class="bx bxl-facebook"></i></a>
-          <a href="https://www.instagram.com/sajim.pk" target="_blank" class="instagram"><i
-              class="bx bxl-instagram"></i></a>
-          <a href="https://github.com/sajimpk/" class="github"><i class="bx bxl-github"></i></a>
-          <a href="https://www.linkedin.com/in/sajim-uddin/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-        </div>
-      </div>
+  <div class="profile-img-wrapper position-relative mx-auto">
+    <div class="loader-circle"></div>
+    <img src="assets/img/profile-img.jpg" alt="Profile" class="img-fluid rounded-circle profile-img">
+  </div><br>
 
-      <nav id="navbar" class="nav-menu navbar">
-        <ul>
-          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-          <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Skills</span></a></li>
-          <li><a href="#projects" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Projects</span></a>
-          </li>
-          <li><a href="#portfolio" class="nav-link scrollto"><i class='bx bx-file-find'></i>
-              <span>Development</span></a></li>
-          <li><a href="./assets/SAJIM-UDDIN SQA Resume.pdf" download="sajim-uddin-SQA.pdf" class="nav-link scrollto"><i
-                class='bx bxs-file-pdf'></i> <span>Downlod resume</span></a></li>
-          <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
 
-        </ul>
-      </nav><!-- .nav-menu -->
+    <h1 class="text-light fs-5 fw-bold"><a href="index.html" class="text-decoration-none text-white">SAJIM UDDIN</a></h1>
+    <div class="social-links1 mt-3">
+      <a href="https://facebook.com/sajimpk4/" target="_blank" class="btn social-anim1"><i class="bx bxl-facebook"></i></a>
+      <a href="https://www.instagram.com/sajim.pk" target="_blank" class="btn social-anim1"><i class="bx bxl-instagram"></i></a>
+      <a href="https://github.com/sajimpk/" target="_blank" class="btn social-anim1"><i class="bx bxl-github"></i></a>
+      <a href="https://www.linkedin.com/in/sajim-uddin/" target="_blank" class="btn social-anim1"><i class="bx bxl-linkedin"></i></a>
     </div>
-  </header><!-- End Header -->
+  
+
+  <nav id="navbar" class="nav-menu navbar mt-4 w-100 animate__animated animate__fadeInUp">
+    <ul class="nav flex-column text-start w-100 px-3">
+      <li class="nav-item"><a href="#hero1" class="nav-link1 menu-anim"><i class="bx bx-home me-2"></i>Home</a></li>
+      <li class="nav-item"><a href="#about" class="nav-link1 menu-anim"><i class="bx bx-user me-2"></i>About</a></li>
+      <li class="nav-item"><a href="#resume" class="nav-link1 menu-anim"><i class="bx bx-file-blank me-2"></i>Resume</a></li>
+      <li class="nav-item"><a href="#skills" class="nav-link1 menu-anim"><i class="bx bx-code-alt me-2"></i>Skills</a></li>
+      <li class="nav-item"><a href="#projects" class="nav-link1 menu-anim"><i class="bx bx-layer me-2"></i>Projects</a></li>
+      <li class="nav-item"><a href="#portfolio" class="nav-link1 menu-anim"><i class="bx bx-briefcase-alt me-2"></i>Development</a></li>
+      <li class="nav-item"><a href="./assets/SAJIM-UDDIN SQA Resume.pdf" target="_blank" download="sajim-uddin-SQA.pdf" class="nav-link1 menu-anim"><i class="bx bxs-file-pdf me-2"></i>Download Resume</a></li>
+      <li class="nav-item"><a href="#contact" class="nav-link1 menu-anim"><i class="bx bx-envelope me-2"></i>Contact</a></li>
+    </ul>
+  </nav>
+  </div>
+</header>
 
 
   <!-- <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
@@ -136,7 +280,6 @@
 <!-- End Hero -->
 
   <main id="main">
-    <!-- ======= About Section ======= -->
     <section id="about" class="about">
       <div class="container">
         <div class="section-title">
@@ -169,7 +312,6 @@
       </div>
     </section>
 
-    <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
       <div class="container">
         <div class="section-title">
@@ -251,10 +393,7 @@
 
       </div>
     </section>
-    <!-- End Resume Section -->
-
-    <!-- ======= Skills Section ======= -->
-
+  
     <section id="skills" class="skills section-bg">
       <div class="container">
         <div class="section-title">
@@ -314,8 +453,6 @@
         </div>
       </div>
     </section>
-
-    <!-- End Skills Section -->
 
     <section id="projects" class="projects section-bg">
       <div class="container" data-aos="fade-up">
@@ -553,10 +690,7 @@
       </div>
     </footer>
 
-
-
-  </main><!-- End #main -->
-
+  </main>
 
 
   <!-- Vendor JS Files -->
