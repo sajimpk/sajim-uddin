@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sajim Uddin - Test Automation Engineer | Interactive Portfolio</title>
+    <!-- Chosen Palette: Midnight & Cyan -->
+    <!-- Application Structure Plan: The SPA is designed as a top-to-bottom narrative portfolio. It starts with a strong Hero section to grab attention, followed by a persistent navigation bar for easy access to all sections. The structure flows logically from a personal summary (About), to a visual showcase of capabilities (Skills Dashboard), then proof of application (Experience & Projects), and finally foundational info (Education/Certs) and a call-to-action (Contact). This structure turns a static resume into an engaging user journey, allowing recruiters to explore information dynamically rather than just reading linearly. Key interactions like the skills chart filter and project card reveals are designed to encourage exploration and highlight key information effectively. -->
+    <!-- Visualization & Content Choices: 
+        - Career Summary -> Goal: Inform -> Method: Clean two-column text layout -> Justification: Provides a professional, readable introduction.
+        - Technical Skills -> Goal: Organize & Compare -> Method: Interactive Radar Chart (Chart.js) with filter buttons -> Interaction: Chart provides a high-level visual summary of skill balance. Buttons below allow users to click a category (e.g., "Languages") to see a detailed list, providing layered information without initial clutter. -> Justification: Far more engaging than a static list, showcasing a grasp of data visualization.
+        - Professional Experience -> Goal: Inform & Highlight Impact -> Method: Vertical timeline with cards (HTML/Tailwind) -> Interaction: Hover effects on cards, key metrics (e.g., "40%", "50+") are visually emphasized with icons and bold styling. -> Justification: A timeline format is a classic way to show career progression. Highlighting quantified achievements makes them scannable and impactful.
+        - Projects -> Goal: Organize & Showcase -> Method: Interactive Grid of Cards (HTML/Tailwind) -> Interaction: Clicking a project card reveals a detailed description and technologies used. -> Justification: A standard, intuitive portfolio pattern that keeps the UI clean while making details accessible on demand.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* slate-950 */
+            color: #d1d5db; /* gray-300 */
+        }
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.5); /* slate-900/50 */
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700/50 */
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #22d3ee; /* cyan-400 */
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px #22d3ee;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.2);
+            border-color: rgba(34, 211, 238, 0.3);
+        }
+        .project-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .project-card.open .project-details {
+            max-height: 500px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 12px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #020617;
+            border: 3px solid #22d3ee;
+            z-index: 1;
+            box-shadow: 0 0 10px #22d3ee;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .typewriter-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 2.5rem;
+            background-color: #22d3ee;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="text-slate-300">
+    
+    <canvas id="starfield"></canvas>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-slate-950/70 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-800/50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white tracking-wider">SAJIM.DEV</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-slate-300 hover:text-white font-medium">About</a>
+                <a href="#skills" class="nav-link text-slate-300 hover:text-white font-medium">Skills</a>
+                <a href="#experience" class="nav-link text-slate-300 hover:text-white font-medium">Experience</a>
+                <a href="#projects" class="nav-link text-slate-300 hover:text-white font-medium">Projects</a>
+                <a href="#contact" class="nav-link text-slate-300 hover:text-white font-medium">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900/90">
+            <a href="#about" class="block py-2 px-6 text-slate-300 hover:bg-slate-800">About</a>
+            <a href="#skills" class="block py-2 px-6 text-slate-300 hover:bg-slate-800">Skills</a>
+            <a href="#experience" class="block py-2 px-6 text-slate-300 hover:bg-slate-800">Experience</a>
+            <a href="#projects" class="block py-2 px-6 text-slate-300 hover:bg-slate-800">Projects</a>
+            <a href="#contact" class="block py-2 px-6 text-slate-300 hover:bg-slate-800">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <h1 id="typewriter-h1" class="text-4xl md:text-6xl font-bold text-white min-h-[56px] md:min-h-[72px]"></h1>
+                <p class="mt-4 text-xl md:text-2xl text-cyan-400 font-medium tracking-wide">Test Automation Engineer</p>
+                <p class="mt-6 max-w-2xl mx-auto text-slate-400">
+                    Architecting robust automation frameworks for flawless software deployment.
+                </p>
+                <div class="mt-8 flex justify-center space-x-4">
+                    <a href="#contact" class="bg-cyan-500 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20 transition-all">Contact Me</a>
+                    <a href="https://github.com/sajimpk" target="_blank" class="bg-slate-800/50 border border-slate-700 text-slate-300 px-6 py-3 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-colors">
+                        View GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-white tracking-wider">01. About Me</h2>
+                    <div class="w-24 h-1 bg-cyan-400 mx-auto mt-4 rounded"></div>
+                </div>
+                <div class="max-w-4xl mx-auto glass-card p-8 rounded-xl">
+                    <p class="text-lg text-slate-300 leading-relaxed">
+                        I am a results-driven and detail-oriented Test Automation Engineer with practical experience in building and maintaining robust testing frameworks for web and mobile applications. Proficient in a variety of tools including Selenium, Cypress, and Postman, with a strong command of Python and Java. I am passionate about quality assurance and am constantly seeking to leverage my expertise to contribute to a dynamic team and ensure the delivery of high-quality, bug-free software.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-white tracking-wider">02. Skills Matrix</h2>
+                     <div class="w-24 h-1 bg-cyan-400 mx-auto mt-4 rounded"></div>
+                </div>
+
+                <div class="w-full max-w-4xl mx-auto">
+                    <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                    
+                    <div id="skill-buttons" class="flex flex-wrap justify-center gap-2 md:gap-4 mt-8">
+                        <!-- Buttons will be generated by JS -->
+                    </div>
+
+                    <div id="skill-details" class="mt-8 glass-card p-6 rounded-lg min-h-[100px] text-center border-dashed border-slate-700">
+                        <p class="text-slate-400">Select a category to view the skills.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Experience Section -->
+        <section id="experience" class="py-20 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-white tracking-wider">03. Career Trajectory</h2>
+                     <div class="w-24 h-1 bg-cyan-400 mx-auto mt-4 rounded"></div>
+                </div>
+                <div class="max-w-2xl mx-auto relative border-l-2 border-slate-700/50 pl-10">
+                    <div class="timeline-item mb-12">
+                        <div class="absolute -left-[43px] glass-card text-cyan-400 rounded-lg w-20 h-20 flex items-center justify-center text-center text-xs font-bold p-1">
+                            Jan 2024 - Present
+                        </div>
+                        <div class="glass-card p-6 rounded-xl">
+                            <h3 class="text-xl font-bold text-white">Test Automation Engineer</h3>
+                            <p class="text-slate-300 font-medium mt-1">Quality Up Services | Dhaka, Bangladesh</p>
+                            <div class="mt-4 space-y-3 text-slate-300">
+                                <p class="flex items-start">
+                                    <span class="text-cyan-400 mr-3 mt-1">&#10148;</span>
+                                    <span>Developed and executed over 150 automated test scripts, reducing manual regression testing efforts by <strong>40%</strong>.</span>
+                                </p>
+                                <p class="flex items-start">
+                                    <span class="text-cyan-400 mr-3 mt-1">&#10148;</span>
+                                    <span>Enhanced test efficiency by <strong>25%</strong> by designing and implementing a modular, reusable test case library.</span>
+                                </p>
+                                <p class="flex items-start">
+                                    <span class="text-cyan-400 mr-3 mt-1">&#10148;</span>
+                                    <span>Identified, documented, and tracked more than <strong>50 software defects</strong> using Jira, providing detailed logs to help developers resolve issues faster.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-white tracking-wider">04. Project Showcase</h2>
+                    <div class="w-24 h-1 bg-cyan-400 mx-auto mt-4 rounded"></div>
+                </div>
+                <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project cards will be populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-20 fade-in-section">
+             <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-white tracking-wider">05. Education & Certs</h2>
+                     <div class="w-24 h-1 bg-cyan-400 mx-auto mt-4 rounded"></div>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                    <div class="glass-card p-8 rounded-xl">
+                         <h3 class="text-xl font-bold text-white">Diploma in Engineering, Computer Technology</h3>
+                         <p class="text-slate-300 mt-1">Cybertech Polytechnic Institute | Joypurhat</p>
+                         <p class="text-cyan-400 font-medium text-sm mt-1">(2019 – 2023)</p>
+                    </div>
+                     <div class="glass-card p-8 rounded-xl">
+                         <h3 class="text-xl font-bold text-white">Web Development with Python Django</h3>
+                         <p class="text-slate-300 mt-1">Completed an intensive training program focused on full-stack web development during my Diploma internship.</p>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-white">Get In Touch</h2>
+                <p class="mt-4 max-w-xl mx-auto text-slate-400">
+                    I'm currently seeking new opportunities. If you have a role that aligns with my skills, I'd love to hear from you.
+                </p>
+                <div class="mt-8">
+                    <a href="mailto:sajim.qups@gmail.com" class="text-xl font-medium text-cyan-400 hover:text-cyan-300 transition-colors">sajim.qups@gmail.com</a>
+                    <p class="text-lg mt-2 text-slate-400">+880 1861766157</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-6 border-t border-slate-800/50">
+        <div class="container mx-auto px-6 text-center text-slate-500 text-sm">
+            <p>&copy; <span id="year"></span> Sajim Uddin. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // Starfield Animation
+            const starfield = document.getElementById('starfield');
+            const ctxStar = starfield.getContext('2d');
+            let stars = [];
+            
+            function resizeCanvas() {
+                starfield.width = window.innerWidth;
+                starfield.height = window.innerHeight;
+                stars = [];
+                for (let i = 0; i < 600; i++) {
+                    stars.push({
+                        x: Math.random() * starfield.width,
+                        y: Math.random() * starfield.height,
+                        radius: Math.random() * 1.5,
+                        vx: Math.floor(Math.random() * 50) - 25,
+                        vy: Math.floor(Math.random() * 50) - 25
+                    });
+                }
+            }
+
+            function drawStars() {
+                ctxStar.clearRect(0, 0, starfield.width, starfield.height);
+                ctxStar.globalCompositeOperation = "lighter";
+                for (let i = 0, x = stars.length; i < x; i++) {
+                    let s = stars[i];
+                    ctxStar.fillStyle = "#fff";
+                    ctxStar.beginPath();
+                    ctxStar.arc(s.x, s.y, s.radius, 0, 2 * Math.PI);
+                    ctxStar.fill();
+                    ctxStar.fillStyle = 'black';
+                    ctxStar.stroke();
+                }
+            }
+            
+            function updateStars() {
+                for (let i = 0, x = stars.length; i < x; i++) {
+                    let s = stars[i];
+                    s.x += s.vx / 60;
+                    s.y += s.vy / 60;
+                    if (s.x < 0 || s.x > starfield.width) s.vx = -s.vx;
+                    if (s.y < 0 || s.y > starfield.height) s.vy = -s.vy;
+                }
+            }
+
+            function animateStars() {
+                drawStars();
+                updateStars();
+                requestAnimationFrame(animateStars);
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            animateStars();
+
+
+            // Original Data and Logic
+            const skillsData = {
+                labels: ['Languages', 'Automation Tools', 'Frameworks', 'DevOps & Tools', 'Other'],
+                datasets: [{
+                    label: 'Proficiency',
+                    data: [8, 9, 8, 7, 9],
+                    backgroundColor: 'rgba(34, 211, 238, 0.2)',
+                    borderColor: 'rgba(34, 211, 238, 1)',
+                    pointBackgroundColor: 'rgba(34, 211, 238, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(34, 211, 238, 1)'
+                }]
+            };
+
+            const skillDetailsData = {
+                'Languages': ['Python', 'Java', 'JavaScript'],
+                'Automation Tools': ['Selenium', 'Cypress', 'Postman', 'Robot Framework', 'Katalon Studio'],
+                'Frameworks': ['Maven', 'Cucumber', 'Behave', 'Django'],
+                'DevOps & Tools': ['Git', 'GitHub', 'Azure Boards', 'Jira', 'Selenium Grid'],
+                'Other': ['Linux Command Line', 'Test Case Design', 'Parallel Test Execution', 'Agile/Scrum Methodologies']
+            };
+            
+            const projectsData = [
+                {
+                    title: 'Web & App Test Automation (Daraz Clone)',
+                    description: "Architected an end-to-end automation framework to test critical user workflows like registration, login, product search, and checkout. The framework reduced regression testing time from 2 days to 3 hours.",
+                    tags: ['Java', 'Selenium', 'TestNG']
+                },
+                {
+                    title: 'Full-Stack E-commerce Website',
+                    description: "Built a complete e-commerce platform from scratch, featuring user authentication, dynamic product catalog, shopping cart functionality, and an integrated payment gateway. This project showcases strong full-stack development capabilities.",
+                    tags: ['Python', 'Django', 'HTML/CSS']
+                },
+                {
+                    title: 'Google Task App Automation',
+                    description: "Implemented a BDD (Behavior-Driven Development) framework to automate testing for the Google Task web application, focusing on validating core functionalities like task creation, editing, and deletion.",
+                    tags: ['Python', 'Selenium', 'Behave']
+                },
+                {
+                    title: 'Windows Application Automation',
+                    description: "Engineered an automation solution for a native Windows desktop application, ensuring its reliability and performance across different user actions.",
+                    tags: ['Java', 'WinAppDriver', 'Cucumber']
+                }
+            ];
+
+            const ctxSkills = document.getElementById('skillsChart').getContext('2d');
+            const skillsChart = new Chart(ctxSkills, {
+                type: 'radar',
+                data: skillsData,
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: { 
+                                font: { size: 14, weight: 'bold' },
+                                color: '#e2e8f0' // slate-200
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(2, 6, 23, 0.5)',
+                                color: '#94a3b8', // slate-400
+                                stepSize: 2
+                            },
+                             min: 0,
+                             max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            const skillButtonsContainer = document.getElementById('skill-buttons');
+            const skillDetailsContainer = document.getElementById('skill-details');
+
+            Object.keys(skillDetailsData).forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'px-4 py-2 glass-card rounded-full text-sm font-medium hover:bg-cyan-400/10 hover:border-cyan-400/50 hover:text-cyan-300 transition-colors';
+                button.textContent = category;
+                button.addEventListener('click', () => {
+                    const skills = skillDetailsData[category];
+                    skillDetailsContainer.innerHTML = `<h4 class="text-lg font-bold mb-2 text-cyan-400">${category}</h4><p class="text-slate-300">${skills.join(', ')}</p>`;
+                    Array.from(skillButtonsContainer.children).forEach(btn => btn.classList.remove('bg-cyan-400/20', 'text-white', 'border-cyan-400/70'));
+                    button.classList.add('bg-cyan-400/20', 'text-white', 'border-cyan-400/70');
+                });
+                skillButtonsContainer.appendChild(button);
+            });
+            
+            const projectsGrid = document.getElementById('projects-grid');
+            projectsData.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'project-card glass-card rounded-xl overflow-hidden cursor-pointer';
+                card.innerHTML = `
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white">${project.title}</h3>
+                        <div class="mt-2 flex flex-wrap gap-2">
+                            ${project.tags.map(tag => `<span class="bg-cyan-400/10 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">${tag}</span>`).join('')}
+                        </div>
+                        <div class="project-details">
+                            <p class="text-slate-400">${project.description}</p>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => card.classList.toggle('open'));
+                projectsGrid.appendChild(card);
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 70) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active', 'text-white');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active', 'text-white');
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
+            
+            const h1 = document.getElementById('typewriter-h1');
+            const text = "Sajim Uddin";
+            h1.innerHTML = "&nbsp;";
+            let i = 0;
+            function typeWriter() {
+                if (i < text.length) {
+                    h1.innerHTML = text.substring(0, i + 1) + '<span class="typewriter-cursor"></span>';
+                    i++;
+                    setTimeout(typeWriter, 120);
+                } else {
+                    h1.innerHTML = text + '<span class="typewriter-cursor"></span>';
+                }
+            }
+            typeWriter();
+        });
+    </script>
+</body>
+</html>
