@@ -20,9 +20,9 @@
   <link href="assets/img/fev.jpg" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -51,160 +51,317 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
     <style>
+    /* Fixed background for Water Ripples */
+    #water-ripple-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -999;
+      background: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+    }
+
     /* Custom styles for the hero section */
     #hero1 {
       min-height: 100vh;
-      /* background: linear-gradient(135deg, #1f4037, #99f2c8); */
-      background: url("assets/img/hero-bg.jpg") top center;
+      background: transparent;
       padding: 0 20px;
-       background-size: cover;
+      position: relative;
+      overflow: hidden;
     }
+    
+    /* Code-like background overlay */
+    #hero1::before {
+      content: "01001011 01100010 01110101 01100111 00001010 ...";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      font-family: 'Fira Code', monospace;
+      font-size: 1.5rem;
+      color: rgba(100, 255, 218, 0.05);
+      word-break: break-all;
+      z-index: 0;
+      pointer-events: none;
+      line-height: 1.2;
+    }
+
+    #hero1 .container {
+      z-index: 2;
+      position: relative;
+    }
+
     #hero1 h1 {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      letter-spacing: 5px;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+      font-family: 'Fira Code', monospace;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
+      color: #ccd6f6;
     }
+    #hero1 h1::before {
+      content: "> ";
+      color: var(--accent-primary);
+    }
+    #hero1 h1::after {
+      content: "_";
+      animation: blink 1s infinite;
+      color: var(--accent-primary);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Floating Icons Animation */
+    .floating-icons {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .floating-icons i {
+      position: absolute;
+      color: rgba(100, 255, 218, 0.15); /* Faint teal */
+      animation: floatUpRandom linear infinite;
+      bottom: -15%;
+      filter: blur(1.5px);
+    }
+
+    .icon-1 { left: 5%; animation-duration: 15s; font-size: 3rem; animation-delay: 0s; }
+    .icon-2 { left: 15%; animation-duration: 22s; font-size: 2rem; animation-delay: 4s; }
+    .icon-3 { left: 25%; animation-duration: 18s; font-size: 4rem; animation-delay: 1s; }
+    .icon-4 { left: 35%; animation-duration: 26s; font-size: 2.5rem; animation-delay: 6s; }
+    .icon-5 { left: 45%; animation-duration: 20s; font-size: 3.5rem; animation-delay: 2s; }
+    .icon-6 { left: 55%; animation-duration: 24s; font-size: 2.8rem; animation-delay: 8s; }
+    .icon-7 { left: 65%; animation-duration: 16s; font-size: 4.5rem; animation-delay: 3s; }
+    .icon-8 { left: 75%; animation-duration: 28s; font-size: 1.5rem; animation-delay: 9s; }
+    .icon-9 { left: 85%; animation-duration: 19s; font-size: 3.2rem; animation-delay: 5s; }
+    .icon-10 { left: 95%; animation-duration: 25s; font-size: 2.2rem; animation-delay: 11s; }
+    .icon-11 { left: 8%; animation-duration: 21s; font-size: 3.8rem; animation-delay: 7s; }
+    .icon-12 { left: 22%; animation-duration: 17s; font-size: 2.6rem; animation-delay: 12s; }
+    .icon-13 { left: 32%; animation-duration: 23s; font-size: 4.2rem; animation-delay: 0.5s; }
+    .icon-14 { left: 42%; animation-duration: 27s; font-size: 2.4rem; animation-delay: 10s; }
+    .icon-15 { left: 52%; animation-duration: 14s; font-size: 3.1rem; animation-delay: 2.5s; }
+    .icon-16 { left: 62%; animation-duration: 29s; font-size: 1.8rem; animation-delay: 13s; }
+    .icon-17 { left: 72%; animation-duration: 18s; font-size: 4.8rem; animation-delay: 4.5s; }
+    .icon-18 { left: 82%; animation-duration: 24s; font-size: 2.9rem; animation-delay: 1.5s; }
+    .icon-19 { left: 92%; animation-duration: 20s; font-size: 3.6rem; animation-delay: 14s; }
+    .icon-20 { left: 48%; animation-duration: 26s; font-size: 2.1rem; animation-delay: 7.5s; }
+
+    @keyframes floatUpRandom {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      30% { transform: translateY(-30vh) translateX(40px) rotate(90deg); }
+      70% { transform: translateY(-80vh) translateX(-40px) rotate(270deg); }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-130vh) translateX(20px) rotate(360deg); opacity: 0; }
+    }
+
     #hero1 h2 {
-      color: #d4f1f9;
+      color: var(--text-muted);
       font-size: 1.8rem;
       letter-spacing: 2px;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
     }
     #hero1 p.lead {
       font-size: 1.2rem;
-      max-width: 480px;
-      background: rgba(255,255,255,0.15);
-      padding: 12px 20px;
-      border-radius: 40px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      color: #e0f7fa;
+      max-width: 600px;
+      background: var(--glass-bg);
+      padding: 15px 25px;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      color: var(--text-main);
+      font-family: 'Fira Code', monospace;
     }
+    
+    .typed1 {
+      color: var(--accent-primary);
+    }
+
     /* Header styling */
-.profile1 h1 a {
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-}
+    #header {
+      background: #0a192f;
+      border-right: 1px solid var(--glass-border);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    }
+    .profile1 h1 a {
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      font-family: 'Fira Code', monospace;
+      color: #ccd6f6;
+    }
 
-.social-links1 a {
-  font-size: 18px;
-  margin: 0 5px;
-  color: #fff;
-  background: rgba(255,255,255,0.1);
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-.social-links1 a:hover {
-  background: #00ffc3;
-  color: #000;
-  transform: scale(1.1);
-}
+    .social-links1 a {
+      font-size: 18px;
+      margin: 0 5px;
+      color: var(--text-main);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .social-links1 a:hover {
+      background: var(--accent-primary);
+      color: #020c1b;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px var(--accent-primary);
+    }
 
-/* Menu links */
-.nav-link1 {
-  padding: 12px 10px;
-  font-weight: 500;
-  font-size: 15px;
-  border-left: 3px solid transparent;
-  transition: all 0.3s ease;
-  color: #eee;
-}
+    /* Menu links */
+    .nav-link1 {
+      padding: 12px 10px;
+      font-weight: 500;
+      font-size: 15px;
+      border-left: 3px solid transparent;
+      transition: all 0.3s ease;
+      color: var(--text-main);
+      font-family: 'Fira Code', monospace;
+    }
 
-.nav-link1:hover {
-  background: rgba(255,255,255,0.1);
-  border-left: 3px solid #00ffd0;
-  color: #00ffd0;
-  padding-left: 15px;
-}
+    .nav-link1:hover {
+      background: rgba(0, 255, 195, 0.05);
+      border-left: 3px solid var(--accent-primary);
+      color: var(--accent-primary);
+      padding-left: 15px;
+    }
 
-/* Animations */
-.social-anim1, .menu-anim {
-  animation: slideIn 0.6s ease forwards;
-  opacity: 0;
-}
-.social-anim1:nth-child(1) { animation-delay: 0.1s; }
-.social-anim1:nth-child(2) { animation-delay: 0.2s; }
-.social-anim1:nth-child(3) { animation-delay: 0.3s; }
-.social-anim1:nth-child(4) { animation-delay: 0.4s; }
+    /* Animations */
+    .social-anim1, .menu-anim {
+      animation: slideIn 0.6s ease forwards;
+      opacity: 0;
+    }
+    .social-anim1:nth-child(1) { animation-delay: 0.1s; }
+    .social-anim1:nth-child(2) { animation-delay: 0.2s; }
+    .social-anim1:nth-child(3) { animation-delay: 0.3s; }
+    .social-anim1:nth-child(4) { animation-delay: 0.4s; }
 
-.menu-anim1:nth-child(1) { animation-delay: 0.5s; }
-.menu-anim1:nth-child(2) { animation-delay: 0.6s; }
-.menu-anim1:nth-child(3) { animation-delay: 0.7s; }
-.menu-anim1:nth-child(4) { animation-delay: 0.8s; }
-.menu-anim1:nth-child(5) { animation-delay: 0.9s; }
-.menu-anim1:nth-child(6) { animation-delay: 1s; }
-.menu-anim1:nth-child(7) { animation-delay: 1.1s; }
-.menu-anim1:nth-child(8) { animation-delay: 1.2s; }
+    .menu-anim1:nth-child(1) { animation-delay: 0.5s; }
+    .menu-anim1:nth-child(2) { animation-delay: 0.6s; }
+    .menu-anim1:nth-child(3) { animation-delay: 0.7s; }
+    .menu-anim1:nth-child(4) { animation-delay: 0.8s; }
+    .menu-anim1:nth-child(5) { animation-delay: 0.9s; }
+    .menu-anim1:nth-child(6) { animation-delay: 1s; }
+    .menu-anim1:nth-child(7) { animation-delay: 1.1s; }
+    .menu-anim1:nth-child(8) { animation-delay: 1.2s; }
 
-@keyframes slideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+    @keyframes slideIn {
+      0% { opacity: 0; transform: translateX(-20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
 
-/* Animations truyj*/
+    .profile-img-wrapper {
+      width: 140px;
+      height: 140px;
+      position: relative;
+    }
 
-.profile-img-wrapper {
-  width: 140px;
-  height: 140px;
-  position: relative;
-}
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--accent-primary);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(0, 255, 195, 0.2);
+    }
 
-.profile-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 5px solid #fff;
-  position: relative;
-  z-index: 2;
-  box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
-}
+    .loader-circle {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 156px;
+      height: 156px;
+      border: 2px dashed var(--accent-secondary);
+      border-radius: 50%;
+      animation: rotateLoader 10s linear infinite;
+      z-index: 1;
+    }
 
-.loader-circle {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 156px;
-  height: 156px;
-  border: 4px solid transparent;
-  border-top: 4px solid #00ffd5;
-  border-right: 4px solid #00bfff;
-  border-radius: 50%;
-  animation: rotateLoader 2s linear infinite;
-  z-index: 1;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
-}
+    @keyframes rotateLoader {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .profile-img:hover {
+      box-shadow: 0 0 20px var(--accent-primary), 0 0 40px var(--accent-primary);
+      transition: box-shadow 0.4s ease-in-out;
+    }
+    
+    /* Section overrides */
+    body {
+      background-color: transparent !important;
+      color: var(--text-main);
+    }
+    .section-bg {
+      background-color: transparent !important;
+    }
+    .section-title h2 {
+      color: #ccd6f6;
+      font-family: 'Fira Code', monospace;
+    }
+    .section-title h2::after {
+      background: var(--accent-primary);
+    }
+    
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(100, 255, 218, 0.1);
+      border-color: rgba(100, 255, 218, 0.3);
+    }
 
-@keyframes rotateLoader {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.profile-img:hover {
-  box-shadow: 0 0 20px #00ffd5, 0 0 40px #00ffd5;
-  transition: box-shadow 0.4s ease-in-out;
-}
-/* Animations yunm*/
-
-  </style>
+    /* Test Report Skills Section */
+    .test-report-card {
+      background: #112240;
+      border-left: 4px solid var(--accent-primary);
+      border-radius: 6px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Fira Code', monospace;
+    }
+    .test-status {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .status-passed {
+      background: rgba(13, 110, 253, 0.1);
+      color: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+    }
+    .status-coverage {
+      background: rgba(32, 201, 151, 0.1);
+      color: var(--accent-secondary);
+      border: 1px solid var(--accent-secondary);
+    }
+  @media (min-width: 1200px) { #hero1 { padding-left: 300px; } } </style>
 </head>
  
 <body>
+  <div id="water-ripple-bg"></div>
 
   <!-- ======= Mobile nav toggle button ======= -->
   <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
@@ -236,7 +393,7 @@
       <li class="nav-item"><a href="#skills" class="nav-link1 menu-anim"><i class="bx bx-code-alt me-2"></i>Skills</a></li>
       <li class="nav-item"><a href="#projects" class="nav-link1 menu-anim"><i class="bx bx-layer me-2"></i>Projects</a></li>
       <li class="nav-item"><a href="#portfolio" class="nav-link1 menu-anim"><i class="bx bx-briefcase-alt me-2"></i>Development</a></li>
-      <li class="nav-item"><a href="./assets/SAJIM-UDDIN SQA Resume.pdf" target="_blank" download="sajim-uddin-SQA.pdf" class="nav-link1 menu-anim"><i class="bx bxs-file-pdf me-2"></i>Download Resume</a></li>
+      <li class="nav-item"><a href="assets/SAJIM_UDDIN.pdf" target="_blank" download="sajim-uddin-SQA.pdf" class="nav-link1 menu-anim"><i class="bx bxs-file-pdf me-2"></i>Download Resume</a></li>
       <li class="nav-item"><a href="#contact" class="nav-link1 menu-anim"><i class="bx bx-envelope me-2"></i>Contact</a></li>
     </ul>
   </nav>
@@ -253,13 +410,40 @@
     </div>
   </section> -->
   
-  <section id="hero1" class="d-flex flex-column justify-content-center align-items-center text-center text-light">
-  <h1 class="display-4 fw-bold mb-3">SAJIM UDDIN</h1>
-  <h2 class="fw-semibold mb-4">Software Test Engineer</h2>
-  <p class="lead">
-    I specialize in - <span class="typed1 fw-bold"></span>
-  </p>
-</section>
+  <section id="hero1" class="d-flex flex-column justify-content-center align-items-center text-center">
+    
+    <!-- Floating SQA Icons -->
+    <div class="floating-icons">
+      <i class="bx bxl-python icon-1"></i>
+      <i class="bx bxl-java icon-2"></i>
+      <i class="bx bx-cog icon-3"></i>
+      <i class="bx bx-bug icon-4"></i>
+      <i class="bx bxl-javascript icon-5"></i>
+      <i class="bx bx-test-tube icon-6"></i>
+      <i class="bx bxl-github icon-7"></i>
+      <i class="bx bx-check-shield icon-8"></i>
+      <i class="bx bxl-django icon-9"></i>
+      <i class="bx bx-code-alt icon-10"></i>
+      <i class="bx bx-server icon-11"></i>
+      <i class="bx bx-data icon-12"></i>
+      <i class="bx bx-bug-alt icon-13"></i>
+      <i class="bx bx-check-double icon-14"></i>
+      <i class="bx bxl-git icon-15"></i>
+      <i class="bx bx-terminal icon-16"></i>
+      <i class="bx bx-code-block icon-17"></i>
+      <i class="bx bxl-trello icon-18"></i>
+      <i class="bx bxl-docker icon-19"></i>
+      <i class="bx bxl-windows icon-20"></i>
+    </div>
+
+    <div class="container animate__animated animate__fadeInUp">
+      <h1 class="display-5 fw-bold mb-3">SAJIM UDDIN</h1>
+      <h2 class="fw-semibold mb-4">Quality Assurance & Automation Engineer</h2>
+      <p class="lead mx-auto">
+        <i class="bx bx-terminal"></i> root@sqa:~$ execute <span class="typed1 fw-bold"></span>
+      </p>
+    </div>
+  </section>
 
 <!-- End Hero -->
 
@@ -268,30 +452,16 @@
       <div class="container">
         <div class="section-title">
           <h2>About</h2>
-          <p>I am Sajim Uddin, a dedicated and detail-oriented Test Automation Engineer based in Joypurhat, Bangladesh.
-            I hold a Diploma in Computer Engineering and have developed a strong foundation in software testing and
-            automation frameworks through real-world experience.
-
-            I have worked as a Test Automation Engineer at Quality Up Services, where I was responsible for designing
-            and executing automated tests for web and mobile applications. My work involved tools such as Selenium,
-            Cypress, Postman, and Robot Framework. I collaborated with development and QA teams using Git, GitHub, Jira,
-            and Azure Boards in agile environments.
-
-            My programming proficiency includes Python, Java, and JavaScript. I’ve also utilized frameworks like Django,
-            Behave, Cucumber, and Maven in various professional projects. I contributed to the automation of real-world
-            platforms such as Daraz, Pickaboo, Google Task App, and a Django-based E-Commerce website.
-
-            I specialize in Sanity Testing, Regression Testing, and Behavior-Driven Development (BDD). In addition to
-            testing, I have hands-on experience in full-stack web development using Django, where I implemented features
-            like CRUD operations, cart management, and payment gateway integration.
-
-            My ability to write clean, structured code, combined with a keen eye for detail, allows me to identify
-            issues early and ensure high software quality. I’m passionate about automation, continuous learning, and
-            solving real-world problems through technology.
-
-            Currently, I’m seeking a full-time or part-time opportunity where I can contribute to a dynamic QA team,
-            grow professionally, and help deliver high-quality software products.
-          </p>
+        </div>
+        <div class="glass-card" data-aos="fade-up" data-aos-duration="1000">
+          <p><i class="bx bx-user-circle text-primary fs-4 me-2"></i> Results-driven SQA Engineer with hands-on experience in automation testing, manual testing, and web application quality assurance.</p>
+          <p><i class="bx bx-cog text-primary fs-4 me-2"></i> Skilled in developing robust test frameworks using Selenium, Cypress, Python, and Java. Proven expertise in executing sanity, regression, and release testing to ensure product reliability.</p>
+          <p><i class="bx bx-code text-primary fs-4 me-2"></i> Eager to contribute to innovative QA solutions and help organizations deliver high-quality, bug-free software products.</p>
+          <div class="text-center mt-4">
+            <a href="assets/SAJIM_UDDIN.pdf" download="Sajim_Uddin_Resume.pdf" class="btn btn-outline-primary btn-lg" style="font-family: 'Fira Code', monospace;">
+              <i class="bx bxs-download"></i> Download Full Resume
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -300,104 +470,80 @@
       <div class="container">
         <div class="section-title">
           <h2>Resume</h2>
-
         </div>
 
         <div class="row">
-          <div class="col-lg-12" data-aos="fade-up">
-            <h3 class="resume-title">Sumary</h3>
-            <div class="resume-item pb-0">
-              <h4>SAJIM UDDIN</h4>
-              <p>Results-driven SQA Engineer with hands-on experience in automation testing, manual testing, and web application quality assurance.
-                Skilled in developing robust test frameworks using Selenium, Cypress, Python, and Java. Proven expertise in executing sanity, regression,
-                and release testing to ensure product reliability. Eager to contribute to innovative QA solutions and help organizations deliver high-quality,
-                bug-free software products.
-                </p>
-            </div>
-            <h3 class="resume-title">Experience</h3>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-duration="1000">
+            <h3 class="resume-title text-light"><i class="bx bx-briefcase"></i> Professional Experience</h3>
+            
             <div class="resume-item">
-              <p>Software Test Engineer</p>
-              <h5>1 Nov - Present</h5>
-              <p><em>Arif Academy</em></p>
-              <p>Mohammadpur, Dhaka, Bangladesh</p>
-              <p>
-              <ul>
-                <li>Performed manual testing of web-based learning management systems to ensure quality and functionality.</li>
-                <li>Identified, documented, and tracked software defects using detailed bug reports.</li>
-                <li>Executed automation test scripts for regression and smoke testing using Selenium.</li>
-                <li>Conducted performance testing to measure system stability and scalability.</li>
-                <li>Collaborated with developers to verify issue resolutions and improve QA processes.</li>
-              </ul>
-              </p>
-
-            </div>
-            <div class="resume-item">
-              <p>Test Automation Engineer</p>
-              <h5>1 Apr[2024] - 30 Sep [2025]</h5>
-              <p><em> Quality Up Services</em></p>
-              <p>Dhaka, Bangladesh</p>
-              <p>
-              <ul>
-                <li>Developed and maintained automated test scripts using Selenium,
-                  Cypress</li>
-                <li>Used Git/GitHub for version control and collaborated with teams via
-                  Azure Boards & Jira</li>
-                <li>Performed Sanity, Regression, and Release testing for web and mobile
-                  applications.</li>
-                <li>Documented and reported defects with detailed logs and screenshots</li>
-                <li>Improved test efficiency and coverage by implementing modular test
-                  cases</li>
-              </ul>
-              </p>
-
-            </div>
-            <h3 class="resume-title">Education</h3>
-            <div class="resume-item">
-              <h4>Diploma in computer Engineering</h4>
-              <h5>2019 - 2023</h5>
-              <p><em>Cybertech polytecnic Institute </em></p>
-              <p><em>Department : Computer Technology. CGPA : 3.74</em></p>
-              <p>Specialized in Computer Technology, with coursework covering
-                programming, software development, networks, and hardware.</p>
-            </div>
-            <div class="resume-item">
-              <h4>Secondary School Certificate (SSC)</h4>
-              <h5>2018 - 2019</h5>
-              <p><em>Sonamuhi High School</em></p>
-              <p>Group: Science</p>
-              <p>Year of Completion : 2019</p>
-              <p>GPA : 4.00</p>
-            </div>
-            <h3 class="resume-title">Training / Certification</h3>
-            <div class="resume-item">
-              <h4>Freelancing with digital marketing</h4>
-              <p><em>E-Learning & Earning LTD [
-যুব উন্নয়ন অধিদপ্তর Batch 02]</em></p>
-              <p>
+              <div class="glass-card mb-4 p-4">
+                <h4>Software Test Engineer</h4>
+                <h5 class="text-primary border border-primary p-1 rounded d-inline-block">11/2025 - Present</h5>
+                <p><em>Arif Academy, Mohammadpur, Dhaka</em></p>
                 <ul>
-                  <li>Video Editing</li>
-                  <li>Digital Marketing</li>
-                  <li>Graphic Design</li>
+                  <li>Performed manual testing of LMS web applications to ensure quality.</li>
+                  <li>Identified and tracked defects through detailed bug reports.</li>
+                  <li>Executed Selenium-based automation for smoke and regression testing.</li>
+                  <li>Conducted performance testing to assess system stability.</li>
+                  <li>Collaborated with developers to verify fixes and enhance QA processes.</li>
                 </ul>
-              </p>
+              </div>
+            </div>
+
+            <div class="resume-item">
+              <div class="glass-card mb-4 p-4">
+                <h4>Jr SQA Engineer</h4>
+                <h5 class="text-primary border border-primary p-1 rounded d-inline-block">09/2024 - 09/2025</h5>
+                <p><em>Quality Up Services, Dhaka</em></p>
+                <ul>
+                  <li>Developed and maintained automation scripts using Selenium and Cypress.</li>
+                  <li>Used Git/GitHub for version control and collaborated via Azure Boards & Jira.</li>
+                  <li>Performed sanity, regression, and release testing for web and mobile apps.</li>
+                  <li>Logged defects with detailed steps, logs, and screenshots.</li>
+                  <li>Increased test efficiency and coverage through modular test cases.</li>
+                </ul>
+              </div>
             </div>
             
             <div class="resume-item">
-              <h4>Digital Marketing</h4>
-              <h5>jan - march [2024]</h5>
-              <p><em>DoIct</em></p>
-              <p>Topics Covered: SEO, Social Media Marketing, Email Marketing, Google Ads, Content Marketing, Analytics
-              </p>
+              <div class="glass-card mb-4 p-4">
+                <h4>SQA Engineer Intern</h4>
+                <h5 class="text-primary border border-primary p-1 rounded d-inline-block">04/2024 - 08/2024</h5>
+                <p><em>Quality Up Services, Dhaka</em></p>
+                <ul>
+                  <li>Assisted in executing manual test cases for web and mobile applications.</li>
+                  <li>Created detailed bug reports with logs, screenshots, and reproduction steps using Jira.</li>
+                  <li>Learned and practiced basic automation using Selenium and Cypress.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+            <h3 class="resume-title text-light"><i class="bx bxs-graduation"></i> Education</h3>
+            <div class="resume-item">
+              <div class="glass-card mb-4 p-4">
+                <h4>Diploma in Engineering</h4>
+                <h5 class="text-primary border border-primary p-1 rounded d-inline-block">07/2019 - 12/2023</h5>
+                <p><em>Cybertech Polytechnic Institute, Joyporhat, Bangladesh</em></p>
+                <p>Diploma in Computer Engineering with core knowledge in programming, development, and networking.</p>
+              </div>
+            </div>
+            
+            <h3 class="resume-title text-light"><i class="bx bx-award"></i> Certificates</h3>
+            <div class="resume-item">
+              <div class="glass-card mb-4 p-4">
+                <h4>Web Development with Python Django</h4>
+                <p><em>Creative IT Institute</em></p>
+              </div>
             </div>
             <div class="resume-item">
-              <h4>industrial attachment</h4>
-              <h5>16th Aug - 9th Nov [2023]</h5>
-              <p><em>Creative It Institute </em></p>
-              <p>Successfully completed the “Web Development with Python Django” training as part of the
-                internship program during my Diploma in Engineering. This practical experience provided a strong
-                foundation in full-stack development using Django, enabling me to build dynamic and database-
-                driven web applications.</p>
-            </div>            
+              <div class="glass-card mb-4 p-4">
+                <h4>Freelancing with digital marketing</h4>
+                <p><em>E-Learning & Earning LTD</em></p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -407,157 +553,139 @@
     <section id="skills" class="skills section-bg">
       <div class="container">
         <div class="section-title">
-          <h2>Skills</h2>
+          <h2><i class="bx bx-check-double text-primary"></i> Test Coverage & Skills</h2>
+          <p class="text-muted">Automated Test Report Overview</p>
         </div>
 
         <div class="row">
-          <div class="col-lg-3 col-md-6">
-            <h4>Automation Tools</h4>
-            <ul>
-              <li>Selenium</li>
-              <li>Cypress</li>
-              <li>Postman</li>
-              <li>Robot Framework</li>
-            </ul>
+          <div class="col-lg-6 mb-4" data-aos="fade-right" data-aos-duration="800">
+            <h4 class="text-light mb-3"><i class="bx bx-bot text-primary"></i> Automation Tools</h4>
+            <div class="test-report-card">
+              <span><i class="bx bx-cog text-primary me-2"></i> Selenium WebDriver</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bx-check-shield text-primary me-2"></i> Cypress</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bx-send text-primary me-2"></i> Postman / API Testing</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bx-bot text-primary me-2"></i> Robot Framework</span>
+            </div>
           </div>
 
-          <div class="col-lg-3 col-md-6">
-            <h4>Languages</h4>
-            <ul>
-              <li>Python</li>
-              <li>Java</li>
-              <li>JavaScript</li>
-            </ul>
+          <div class="col-lg-6 mb-4" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+            <h4 class="text-light mb-3"><i class="bx bx-code-alt text-primary"></i> Programming Languages</h4>
+            <div class="test-report-card">
+              <span><i class="bx bxl-python text-primary me-2 fs-5"></i> Python</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bxl-java text-primary me-2 fs-5"></i> Java</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bxl-javascript text-primary me-2 fs-5"></i> JavaScript</span>
+            </div>
           </div>
 
-          <div class="col-lg-3 col-md-6">
-            <h4>Frameworks</h4>
-            <ul>
-              <li>Maven</li>
-              <li>Cucumber</li>
-              <li>Behave</li>
-              <li>Django</li>
-              <li>Katalon Studio</li>
-            </ul>
+          <div class="col-lg-6 mb-4" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
+            <h4 class="text-light mb-3"><i class="bx bx-layer text-primary"></i> Frameworks</h4>
+            <div class="test-report-card">
+              <span><i class="bx bx-leaf text-primary me-2"></i> Cucumber / Behave (BDD)</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bxl-django text-primary me-2 fs-5"></i> Django</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bx-package text-primary me-2"></i> Maven</span>
+            </div>
           </div>
 
-          <div class="col-lg-3 col-md-6">
-            <h4>DevOps & Tools</h4>
-            <ul>
-              <li>Git</li>
-              <li>GitHub</li>
-              <li>Azure Boards</li>
-              <li>Jira</li>
-              <li>Selenium Grid</li>
-              <li>Jmeter</li>
-              <li>K6</li>
-            </ul>
-          </div>
-          
-          <div class="col-lg-12 mt-4">
-            <h4>Other</h4>
-            <ul>
-              <li>Linux Command Line</li>
-              <li>Test Case Writing</li>
-              <li>Parallel Test Execution</li>
-            </ul>
+          <div class="col-lg-6 mb-4" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">
+            <h4 class="text-light mb-3"><i class="bx bx-server text-primary"></i> DevOps & Tools</h4>
+            <div class="test-report-card">
+              <span><i class="bx bxl-github text-primary me-2 fs-5"></i> Git / GitHub / Azure / Jira</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bx-line-chart text-primary me-2"></i> Jmeter / K6 (Performance)</span>
+            </div>
+            <div class="test-report-card">
+              <span><i class="bx bx-grid-alt text-primary me-2"></i> Selenium Grid</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="projects section-bg">
+    <section id="projects" class="projects">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2>Projects</h2>
-          <p style="color: rgb(135, 136, 136); font-weight: bold;">Some of the projects I’ve worked on during my
-            learning and internship period.</p>
+          <h2><i class="bx bx-folder-open text-primary"></i> Projects & Automation Suites</h2>
+          <p class="text-muted" style="font-family: 'Fira Code', monospace;">> executing test_suites.py ...</p>
         </div>
 
         <div class="row">
 
-          <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm p-4 border-0">
-              <h3 class="card-title">Google Task App Automation</h3>
-              <p class="card-text" style="color: rgb(135, 136, 136);">Automated Google Task App functionalities using
-                Python, Selenium & Behave framework. Tested task creation, update, and deletion processes.</p>
-              <a href="https://github.com/sajimpk/Google-Task-App-Automation" target="_blank"
-                class="btn btn-outline-primary mt-auto align-self-start">
-                <i class="bi bi-github"></i> GitHub
-              </a>
+          <div class="col-lg-6 mb-4" data-aos="zoom-in" data-aos-duration="800">
+            <div class="glass-card h-100 d-flex flex-column">
+              <h3 class="card-title text-light"><i class="bx bxl-google text-primary"></i> Google Task App Automation</h3>
+              <p class="card-text text-muted mb-4">Automated Google Task App functionalities using Python, Selenium & Behave framework. Tested task creation, update, and deletion processes.</p>
+              <div class="mt-auto">
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Python</span>
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Selenium</span>
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Behave (BDD)</span>
+                <br>
+                <a href="https://github.com/sajimpk/Google-Task-App-Automation" target="_blank" class="btn btn-outline-primary mt-3 btn-sm">
+                  <i class="bi bi-github"></i> View Repository
+                </a>
+              </div>
             </div>
           </div>
 
           <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm p-4 border-0">
-              <h3 class="card-title">Daraz Web & App Automation</h3>
-              <p class="card-text" style="color: rgb(135, 136, 136);">Performed automated testing on Daraz's platform
-                using Java and Python with Selenium, covering product search, cart, and checkout flows.</p>
-              <a href="https://github.com/sajimpk?tab=repositories" target="_blank"
-                class="btn btn-outline-primary mt-auto align-self-start">
-                <i class="bi bi-github"></i> GitHub
-              </a>
+            <div class="glass-card h-100 d-flex flex-column">
+              <h3 class="card-title text-light"><i class="bx bx-cart text-primary"></i> Daraz Web & App Automation</h3>
+              <p class="card-text text-muted mb-4">Performed automated testing on Daraz's platform using Java and Python with Selenium, covering product search, cart, and checkout flows.</p>
+              <div class="mt-auto">
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Java</span>
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Python</span>
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Selenium</span>
+                <br>
+                <a href="https://github.com/sajimpk?tab=repositories" target="_blank" class="btn btn-outline-primary mt-3 btn-sm">
+                  <i class="bi bi-github"></i> View Repository
+                </a>
+              </div>
             </div>
           </div>
 
           <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm p-4 border-0">
-              <h3 class="card-title">Pickaboo Manual & Automation Testing</h3>
-              <p class="card-text" style="color: rgb(135, 136, 136);">Executed Sanity, Regression, and UI testing
-                manually and automated the key flows for Pickaboo.com as part of QA practice.</p>
-              <a href="https://github.com/sajimpk?tab=repositories" target="_blank"
-                class="btn btn-outline-primary mt-auto align-self-start">
-                <i class="bi bi-github"></i> GitHub
-              </a>
+            <div class="glass-card h-100 d-flex flex-column">
+              <h3 class="card-title text-light"><i class="bx bx-mobile text-primary"></i> Pickaboo QA Testing</h3>
+              <p class="card-text text-muted mb-4">Executed Sanity, Regression, and UI testing manually and automated the key flows for Pickaboo.com as part of QA practice.</p>
+              <div class="mt-auto">
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Manual Testing</span>
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Automation</span>
+                <br>
+                <a href="https://github.com/sajimpk?tab=repositories" target="_blank" class="btn btn-outline-primary mt-3 btn-sm">
+                  <i class="bi bi-github"></i> View Repository
+                </a>
+              </div>
             </div>
           </div>
 
           <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm p-4 border-0">
-              <h3 class="card-title">CRUD Application with Django</h3>
-              <p class="card-text" style="color: rgb(135, 136, 136);">Developed a Django-based app allowing users to
-                create, read, update, and delete items with a clean UI.</p>
-              <a href="https://github.com/sajimpk?tab=repositories" target="_blank"
-                class="btn btn-outline-primary mt-auto align-self-start">
-                <i class="bi bi-github"></i> GitHub
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm p-4 border-0">
-              <h3 class="card-title">Windows App Automation</h3>
-              <p class="card-text" style="color: rgb(135, 136, 136);">Automated Windows desktop application
-                functionalities using Java, Selenium, Maven, and Cucumber framework.</p>
-              <a href="https://github.com/sajimpk?tab=repositories" target="_blank"
-                class="btn btn-outline-primary mt-auto align-self-start">
-                <i class="bi bi-github"></i> GitHub
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm p-4 border-0">
-              <h3 class="card-title">Web Server Using Docker</h3>
-              <p class="card-text" style="color: rgb(135, 136, 136);">Created and deployed a lightweight web server
-                application using Docker containerization for deployment practice.</p>
-              <a href="https://github.com/sajimpk?tab=repositories" target="_blank"
-                class="btn btn-outline-primary mt-auto align-self-start">
-                <i class="bi bi-github"></i> GitHub
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm p-4 border-0">
-              <h3 class="card-title">E-commerce Website (Django)</h3>
-              <p class="card-text" style="color: rgb(135, 136, 136);">Built a full-stack e-commerce site using Django
-                with product management, cart total calculation, and payment integration features.</p>
-              <a href="https://github.com/sajimpk?tab=repositories" target="_blank"
-                class="btn btn-outline-primary mt-auto align-self-start">
-                <i class="bi bi-github"></i> GitHub
-              </a>
+            <div class="glass-card h-100 d-flex flex-column">
+              <h3 class="card-title text-light"><i class="bx bx-data text-primary"></i> Django CRUD Application</h3>
+              <p class="card-text text-muted mb-4">Developed a Django-based app allowing users to create, read, update, and delete items with a clean UI.</p>
+              <div class="mt-auto">
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Django</span>
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Python</span>
+                <span class="badge bg-dark border border-primary text-primary me-2 mb-2">Web Dev</span>
+                <br>
+                <a href="https://github.com/sajimpk?tab=repositories" target="_blank" class="btn btn-outline-primary mt-3 btn-sm">
+                  <i class="bi bi-github"></i> View Repository
+                </a>
+              </div>
             </div>
           </div>
 
@@ -565,33 +693,23 @@
       </div>
     </section>
 
-    <section id="portfolio" class="py-5 bg-light">
+    <section id="portfolio" class="py-5 bg-dark section-bg">
       <div class="container">
-        <div class="text-center mb-5">
-          <h2 class="fw-bold">WEB Development</h2>
-        </div>
-
-        <!-- Filter Buttons -->
-        <div class="d-flex justify-content-center mb-4">
-          <button class="btn btn-outline-primary me-2 active" type="button" data-filter="*">All</button>
-          <button class="btn btn-outline-primary" type="button" data-filter=".filter-web">Web</button>
+        <div class="section-title">
+          <h2><i class="bx bx-code-block text-primary"></i> Web Development</h2>
         </div>
 
         <div class="row g-4 justify-content-center">
-
           <div class="col-md-6 col-lg-4 portfolio-item filter-web">
-            <div class="card shadow-sm h-100">
+            <div class="glass-card h-100 p-0 overflow-hidden">
               <img src="assets/img/web1.png" class="card-img-top" alt="E-Commerce project"
-                style="height: 200px; object-fit: cover;">
-              <div class="card-body text-center">
-                <h5 class="card-title">E-Commerce</h5>
+                style="height: 200px; object-fit: cover; opacity: 0.8;">
+              <div class="card-body text-center p-4">
+                <h5 class="card-title text-light mb-3">E-Commerce</h5>
                 <div>
-                  <a href="assets/img/web1.png" class="btn btn-outline-primary me-2" target="_blank" title="View Image">
-                    <i class="bi bi-plus-lg"></i> View
-                  </a>
-                  <a href="https://github.com/sajimpk/TechBazars.git" class="btn btn-outline-secondary" target="_blank"
+                  <a href="https://github.com/sajimpk/TechBazars.git" class="btn btn-outline-primary" target="_blank"
                     title="GitHub Link">
-                    <i class="bi bi-github"></i> GitHub
+                    <i class="bi bi-github"></i> View Source
                   </a>
                 </div>
               </div>
@@ -599,106 +717,101 @@
           </div>
 
           <div class="col-md-6 col-lg-4 portfolio-item filter-web">
-            <div class="card shadow-sm h-100">
+            <div class="glass-card h-100 p-0 overflow-hidden">
               <img src="assets/img/web2.png" class="card-img-top" alt="Student Management System project"
-                style="height: 200px; object-fit: cover;">
-              <div class="card-body text-center">
-                <h5 class="card-title">Student Management System</h5>
+                style="height: 200px; object-fit: cover; opacity: 0.8;">
+              <div class="card-body text-center p-4">
+                <h5 class="card-title text-light mb-3">Student Management System</h5>
                 <div>
-                  <a href="assets/img/web2.png" class="btn btn-outline-primary me-2" target="_blank" title="View Image">
-                    <i class="bi bi-plus-lg"></i> View
-                  </a>
                   <a href="https://github.com/sajimpk/Student_management_System-Django-.git"
-                    class="btn btn-outline-secondary" target="_blank" title="GitHub Link">
-                    <i class="bi bi-github"></i> GitHub
+                    class="btn btn-outline-primary" target="_blank" title="GitHub Link">
+                    <i class="bi bi-github"></i> View Source
                   </a>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
 
-    <section id="contact" class="contact-section py-5 bg-light">
+    <section id="contact" class="contact-section py-5">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-lg-6 col-md-8">
-            <h2 class="text-center mb-4 fw-bold" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-              Get in Touch
-            </h2>
-            <p class="text-center text-muted mb-5">
-              Feel free to drop us a message. We’d love to hear from you!
-            </p>
-            <form action="https://formspree.io/f/manorkkn" method="POST">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-                <label for="name">Your Name</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
-                <label for="email">Email address</label>
-              </div>
-              <div class="form-floating mb-4">
-                <textarea name="message" class="form-control" placeholder="Leave a message here" id="message" style="height: 120px;"
-                  required></textarea>
-                <label for="message">Message</label>
-              </div>
-              <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg fw-semibold"
-                  style="border-radius: 50px; letter-spacing: 1px;">
-                  Send Message
-                </button>
-              </div>
-            </form>
+          <div class="col-lg-8 col-md-10">
+            <div class="glass-card">
+              <h2 class="text-center mb-4 text-light" style="font-family: 'Fira Code', monospace;">
+                <i class="bx bx-bug text-danger"></i> Report a Bug (Contact Me)
+              </h2>
+              <p class="text-center text-muted mb-5">
+                Have a question or a project? Submit a ticket below and I'll get back to you!
+              </p>
+              <form action="https://formspree.io/f/manorkkn" method="POST">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control bg-dark text-light border-secondary" id="name" placeholder="Reporter Name" required style="font-family: 'Fira Code', monospace;">
+                  <label for="name" class="text-muted">Reporter Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="email" name="email" class="form-control bg-dark text-light border-secondary" id="email" placeholder="name@example.com" required style="font-family: 'Fira Code', monospace;">
+                  <label for="email" class="text-muted">Email address</label>
+                </div>
+                <div class="form-floating mb-4">
+                  <textarea name="message" class="form-control bg-dark text-light border-secondary" placeholder="Steps to Reproduce / Message" id="message" style="height: 150px; font-family: 'Fira Code', monospace;" required></textarea>
+                  <label for="message" class="text-muted">Steps to Reproduce / Message</label>
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-outline-primary btn-lg fw-semibold" style="letter-spacing: 2px; font-family: 'Fira Code', monospace;">
+                    <i class="bx bx-send"></i> Submit Ticket
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
 
-    <footer class="bg-dark text-light text-center text-lg-start mt-5">
+    <footer class="bg-dark text-light text-center text-lg-start mt-5 border-top border-secondary">
       <div class="container p-4">
         <div class="row">
 
           <!-- About -->
           <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Sajim Uddin</h5>
-            <p>
-              Test Automation Engineer specializing in Selenium, Cypress, and Python. Passionate about building quality
-              software solutions.
+            <h5 class="text-uppercase text-primary" style="font-family: 'Fira Code', monospace;">Sajim Uddin</h5>
+            <p class="text-muted">
+              Quality Assurance & Test Automation Engineer. Passionate about building and verifying reliable software solutions.
             </p>
           </div>
 
           <!-- Quick Links -->
           <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Quick Links</h5>
+            <h5 class="text-uppercase text-primary" style="font-family: 'Fira Code', monospace;">Quick Links</h5>
             <ul class="list-unstyled mb-0">
-              <li><a href="#about" class="text-light text-decoration-none">About</a></li>
-              <li><a href="#projects" class="text-light text-decoration-none">Projects</a></li>
-              <li><a href="#skills" class="text-light text-decoration-none">Skills</a></li>
-              <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
+              <li><a href="#about" class="text-muted text-decoration-none hover-primary">About</a></li>
+              <li><a href="#projects" class="text-muted text-decoration-none hover-primary">Projects</a></li>
+              <li><a href="#skills" class="text-muted text-decoration-none hover-primary">Skills</a></li>
+              <li><a href="#contact" class="text-muted text-decoration-none hover-primary">Contact</a></li>
             </ul>
           </div>
 
           <!-- Contact -->
           <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Contact</h5>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-envelope"></i> sajimpk@gmail.com</li>
-              <li><i class="bi bi-phone"></i> 01861766157</li>
-              <li><i class="bi bi-github"></i> <a href="https://github.com/sajimpk" target="_blank"
-                  class="text-light text-decoration-none">github.com/sajimpk</a></li>
+            <h5 class="text-uppercase text-primary" style="font-family: 'Fira Code', monospace;">Contact</h5>
+            <ul class="list-unstyled text-muted">
+              <li><i class="bi bi-envelope text-primary"></i> sajimpk@gmail.com</li>
+              <li><i class="bi bi-phone text-primary"></i> 01861766157</li>
+              <li><i class="bi bi-github text-primary"></i> <a href="https://github.com/sajimpk" target="_blank"
+                  class="text-muted text-decoration-none hover-primary">github.com/sajimpk</a></li>
             </ul>
           </div>
 
         </div>
       </div>
 
-      <div class="text-center p-3 bg-secondary">
-        © 2026 Sajim Uddin. All rights reserved.
+      <div class="text-center p-3" style="background-color: #020c1b; font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+        <span class="text-primary">></span> System shutdown. © 2026 Sajim Uddin. All rights reserved.
       </div>
     </footer>
 
@@ -724,16 +837,33 @@
 <!-- Typed.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-<script>
-  // Initialize Typed.js
-  var typed = new Typed('.typed1', {
-    strings: ["Web Test Automation", "App Test Automation", "API Testing", "Web Development"],
-    typeSpeed: 60,
-    backSpeed: 30,
-    backDelay: 1500,
-    loop: true
-  });
-</script>
+  <!-- jQuery and jQuery Ripples for Water Surface Effect -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.ripples@0.6.3/jquery.ripples.min.js"></script>
+
+  <script>
+    // Initialize Typed.js
+    var typed = new Typed('.typed1', {
+      strings: ["Web Test Automation", "App Test Automation", "API Testing", "Web Development"],
+      typeSpeed: 60,
+      backSpeed: 30,
+      backDelay: 1500,
+      loop: true
+    });
+
+    // Initialize Water Ripple Effect
+    $(document).ready(function() {
+      try {
+        $('#water-ripple-bg').ripples({
+          resolution: 256,
+          dropRadius: 20,
+          perturbance: 0.04
+        });
+      } catch (e) {
+        console.error("Ripple effect not supported", e);
+      }
+    });
+  </script>
 
 
 
